@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "Promedio UANL",
+    "short_name": "Promedio UANL",
+    "description": "Calula tu \"Promedio General\" (el que se imprime en documentos), y tu \"Promedio Normal\" (contando las materias reprobadas).",
+    "icons": {
+        "16": "img/16.png",
+        "48": "img/48.png",
+        "128": "img/128.png"
+    },
+    "content_scripts": [{
+        "js": ["zepto.min.js", "content_script.js"],
+        "matches": ["http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx*"],
+        "all_frames": true
+    }],
+    "permissions": ["http://deimos.dgi.uanl.mx/*"],
+    "version": "0.7587"
+}
