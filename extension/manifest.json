@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Promedio UANL",
     "short_name": "Promedio UANL",
-    "description": "Calula tu \"Promedio General\" (el que se imprime en documentos), y tu \"Promedio Normal\" (contando las materias reprobadas).",
+    "description": "Calcula tu \"Promedio General\" (el de documentos oficiales), y tu \"Promedio Normal\" (contando las materias reprobadas).",
     "icons": {
         "16": "img/16.png",
         "48": "img/48.png",

@@ -50,6 +50,7 @@ var totCount = 0;
 for (var i = 1; i < subj.length; i++) {
     var cells = $('td', subj[i]);
     var val = 0;
+    var rowHasValues = false;
     for (var j = op; j < maxOp; j++) {
         var str = cells[j].textContent.trim();
         if (isNaN(parseInt(str, 10))) {
@@ -57,15 +58,17 @@ for (var i = 1; i < subj.length; i++) {
                 continue;
             }
             val = str == "AC" ? 100 : 0;
-        }
-        else {
+        } else {
             val = parseInt(str, 10);
         }
+	rowHasValues = true
         fullAvg += val;
         totCount++;
     }
-    avg += val;
-    count++;
+    if (rowHasValues) {
+        avg += val;
+        count++;
+    }
 }
 avg = (avg / count).toFixed(2);
 fullAvg = (fullAvg / totCount).toFixed(2);
