@@ -2,6 +2,7 @@
 // @description Calcula tu "Promedio General" (el de documentos oficiales), y tu "Promedio Normal" (contando las materias reprobadas).
 // @grant none
 // @icon https://raw.githubusercontent.com/Goodwine/promedioUANL/master/extension/img/48.png
+// @require http://zeptojs.com/zepto.min.js
 // @match http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx*
 // @match https://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx*
 // @name Promedio UANL
