@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Promedio UANL",
     "short_name": "Promedio UANL",
-    "description": "Calcula tu \"Promedio General\" (todas las calificaciones), y tu \"Promedio Normal\" (solo las materias reprobadas).",
+    "description": "Calcula tu \"Promedio General\" (Calificaciones aprobadas), y tu \"Promedio Normal\" (incluye materias reprobadas).",
     "icons": {
         "16": "img/16.png",
         "48": "img/48.png",
@@ -15,5 +15,5 @@
         "all_frames": true
     }],
     "permissions": ["http://deimos.dgi.uanl.mx/*"],
-    "version": "0.7957"
+    "version": "0.7999"
 }

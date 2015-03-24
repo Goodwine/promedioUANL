@@ -29,7 +29,7 @@ var subj = $('tr', calif);
 var header = $('td', subj[0]);
 var op = header.length;
 var maxOp = header.length;
-var ac = ["AC", "CU"]
+var ac = ["A", "AC", "CU"]
 
 for (var i = 0; i < header.length; i++) {
     if (header[i].textContent.trim().toUpperCase() == 'MATERIA') {
@@ -58,7 +58,7 @@ for (var i = 1; i < subj.length; i++) {
             if (str.length === 0) {
                 continue;
             }
-            val = ac.indexOf(str) !== -1 ? 100 : 0;
+            val = ac == str ? 100 : 0;
         } else {
             val = parseInt(str, 10);
         }
