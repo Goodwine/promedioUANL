@@ -58,7 +58,7 @@ for (var i = 1; i < subj.length; i++) {
             if (str.length === 0) {
                 continue;
             }
-            val = ac == str ? 100 : 0;
+            val = ac.indexOf(str) !== -1 ? 100 : 0;
         } else {
             val = parseInt(str, 10);
         }

@@ -15,5 +15,5 @@
         "all_frames": true
     }],
     "permissions": ["http://deimos.dgi.uanl.mx/*"],
-    "version": "0.7999"
+    "version": "0.8"
 }
