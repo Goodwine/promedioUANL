@@ -6,7 +6,7 @@
 // @match http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx*
 // @match https://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx*
 // @name Promedio UANL
-// @version 0.8
+// @version 0.8156
 // ==/UserScript==
 
 //http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx01.htm
