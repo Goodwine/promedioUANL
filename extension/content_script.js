@@ -1,19 +1,17 @@
-//http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx01.htm
-
+"use strict";
+// http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx01.htm
+// http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econkdx01.htm
+var _a, _b, _c, _d, _e, _f;
 // The MIT License (MIT)
-
 // Copyright (c) 2014 Goodwine
-
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,79 +19,84 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
-var kdx = $('#kdx')[0];
-var titles = $('table', kdx)[0];
-var calif = $('table', kdx)[1];
-var subj = $('tr', calif);
-var header = $('td', subj[0]);
-var op = header.length;
-var maxOp = header.length;
-var ac = ["A", "AC", "CU"]
-
-for (var i = 0; i < header.length; i++) {
-    if (header[i].textContent.trim().toUpperCase() == 'MATERIA') {
-        op = i + 1;
-        break;
-    }
+const kdx = document.querySelector("#kdx");
+const [titles, calif] = Array.from(kdx.querySelectorAll("table"));
+const filas = Array.from(calif.querySelectorAll("tr"));
+const materias = filas.slice(1);
+const header = Array.from(filas[0].querySelectorAll("td,th")).map(text);
+const ac = ["A", "AC", "CU"];
+function text(el) {
+    var _a, _b;
+    return ((_b = (_a = el.textContent) === null || _a === void 0 ? void 0 : _a.replace(/\s+/g, " ")) === null || _b === void 0 ? void 0 : _b.trim()) || "";
 }
-
-for (i = op; i < header.length; i++) {
-    if (header[i].textContent.toUpperCase().indexOf("OPO.")) {
-        maxOp = i;
-    }
-}
-
-var avg = 0;
-var count = 0;
-var fullAvg = 0;
-var totCount = 0;
-for (var i = 1; i < subj.length; i++) {
-    var cells = $('td', subj[i]);
-    var val = 0;
-    var rowHasValues = false;
-    for (var j = op; j < maxOp; j++) {
-        var str = cells[j].textContent.trim();
-        if (isNaN(parseInt(str, 10))) {
-            if (str.length === 0) {
-                continue;
-            }
-            val = ac.indexOf(str) !== -1 ? 100 : 0;
-        } else {
-            val = parseInt(str, 10);
-        }
-	rowHasValues = true
-        fullAvg += val;
-        totCount++;
-    }
-    if (rowHasValues) {
-        avg += val;
-        count++;
-    }
-}
-avg = (avg / count).toFixed(2);
-fullAvg = (fullAvg / totCount).toFixed(2);
-
-var titleRows = $('tr', titles);
-var nodeAfter = null;
-for (var i = 0; i < titleRows.length; i++) {
-    if(/Consulta de K[aá]rdex/ig.test(titleRows[i].textContent)) {
-        nodeAfter = titleRows[i];
-    }
-}
-
-var row = $('<tr>');
-row.html('<td colspan="2" class="titulos" width="100%" style="font-family:Arial;font-size:small;font-weight:bold">&nbsp; Promedio</td>');
-row.insertBefore(nodeAfter);
-
-row = $('<tr>');
-row.html('<td colspan="2" bgcolor="#000000" align="center" width="100%"><img src="http://deimos.dgi.uanl.mx/uanlimg/ws/shim.gif" height="2"></td>');
-row.insertBefore(nodeAfter);
-
-row = $('<tr>');
-row.html('<td><table><tr style="font-family:Arial;font-size:small;font-weight:bold"><td valign="middle" bgcolor="#FFEA96" height="21" style="font-size:10px;white-space:nowrap;">Promedio General: </td><td bgcolor="#eeefe7" width="100%">'
-    + avg + '</td></tr></table></td><td><table><tr style="font-family:Arial;font-size:small;font-weight:bold"><td valign="middle" bgcolor="#FFEA96" height="21" style="font-size:10px;white-space:nowrap;">Promedio Normal: </td><td bgcolor="#eeefe7" width="100%">'
-    + fullAvg + '</td></tr></table><td />');
-row.insertBefore(nodeAfter);
-
-$('#noof', kdx).remove();
+const opPattern = /\bopo\b/i;
+/** Determina cual es la primera oportunidad */
+const op = header.findIndex(h => opPattern.test(h));
+/** Determina cual es la última oportunidad */
+const maxOp = op + header.slice(op + 1).findIndex(h => !opPattern.test(h));
+const scores = materias
+    .map(m => Array.from(m.querySelectorAll("td"))
+    .slice(op, maxOp + 1)
+    .map(text)
+    .filter(c => c !== "")
+    .map(c => {
+    if (ac.includes(c))
+        return 100;
+    return Number(c) || 0;
+}))
+    // Ignorar materias sin scores, como de un kardex incompleto.
+    .filter(s => s.length > 0);
+const todasLasMaterias = scores.flat();
+const countNormal = todasLasMaterias.length;
+const sumNormal = todasLasMaterias.reduce((acc, v) => acc + v, 0);
+const pasadas = todasLasMaterias.filter(v => v >= 70);
+const count = pasadas.length;
+const sum = pasadas.reduce((acc, v) => acc + v, 0);
+const avg = (sum / count).toFixed(2);
+const avgNormal = (sumNormal / countNormal).toFixed(2);
+const titleRows = Array.from(titles.querySelectorAll("tr"));
+const beforeNode = titleRows
+    .reverse()
+    .find(r => /Consulta de K[aá]rdex/gi.test(text(r)));
+const promedioTitleEl = document.createElement("tr");
+promedioTitleEl.innerHTML = `
+  <td colspan="2" class="titulos" width="100%" style="font-family:Arial;font-size:small;font-weight:bold">
+    &nbsp; Promedio
+  </td>
+`;
+(_b = (_a = beforeNode) === null || _a === void 0 ? void 0 : _a.parentElement) === null || _b === void 0 ? void 0 : _b.insertBefore(promedioTitleEl, beforeNode);
+const barraNegraEl = document.createElement("tr");
+barraNegraEl.innerHTML = `
+  <td colspan="2" bgcolor="#000000" align="center" width="100%" height="2px">
+  </td>
+`;
+(_d = (_c = beforeNode) === null || _c === void 0 ? void 0 : _c.parentElement) === null || _d === void 0 ? void 0 : _d.insertBefore(barraNegraEl, beforeNode);
+const promedioEl = document.createElement("tr");
+promedioEl.innerHTML = `
+  <td>
+    <table>
+      <tr style="font-family:Arial;font-size:small;font-weight:bold">
+        <td valign="middle" bgcolor="#FFEA96" height="21" style="font-size:10px;white-space:nowrap;">
+          Promedio General:
+        </td>
+        <td bgcolor="#eeefe7" width="100%">
+          ${avg}
+        </td>
+      </tr>
+    </table>
+  </td>
+  <td>
+    <table>
+      <tr style="font-family:Arial;font-size:small;font-weight:bold">
+        <td valign="middle" bgcolor="#FFEA96" height="21" style="font-size:10px;white-space:nowrap;">
+          Promedio Normal:
+        </td>
+        <td bgcolor="#eeefe7" width="100%">
+          ${avgNormal}
+        </td>
+      </tr>
+    </table>
+  </td>
+`;
+(_f = (_e = beforeNode) === null || _e === void 0 ? void 0 : _e.parentElement) === null || _f === void 0 ? void 0 : _f.insertBefore(promedioEl, beforeNode);
+kdx.querySelectorAll("#noof").forEach(el => el.remove());

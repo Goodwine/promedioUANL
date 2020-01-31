@@ -1,8 +1,11 @@
 {
     "manifest_version": 2,
+    "minimum_chrome_version": "78",
+
     "name": "Promedio UANL",
     "short_name": "Promedio UANL",
     "description": "Calcula tu \"Promedio General\" (Calificaciones aprobadas), y tu \"Promedio Normal\" (incluye materias reprobadas).",
+
     "icons": {
         "16": "img/16.png",
         "48": "img/48.png",
@@ -10,10 +13,13 @@
         "128": "img/128.png"
     },
     "content_scripts": [{
-        "js": ["zepto.min.js", "content_script.js"],
-        "matches": ["http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx*"],
+        "js": ["content_script.js"],
+        "matches": [
+            "http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econskdx*",
+            "http://deimos.dgi.uanl.mx/cgi-bin/wspd_cgi.sh/econkdx*"
+        ],
         "all_frames": true
     }],
     "permissions": ["http://deimos.dgi.uanl.mx/*"],
-    "version": "0.8156"
+    "version": "0.9.0"
 }
