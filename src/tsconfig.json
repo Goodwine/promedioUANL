@@ -2,7 +2,11 @@
     "compilerOptions": {
         "target": "ES2020",
         "module": "ESNext",
-        "lib": ["DOM", "ES6", "ESNext"],
+        "lib": [
+            "DOM",
+            "ES6",
+            "ESNext"
+        ],
         "strict": true,
         "sourceMap": false,
         "outDir": "../extension/"
